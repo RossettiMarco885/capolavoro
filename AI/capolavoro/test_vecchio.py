@@ -3,6 +3,7 @@ import os
 import numpy as np
 import keras.preprocessing.image as image_utils
 from keras.models import load_model
+import matplotlib.pyplot as plt
 
 
 def load_and_prepare_image(filename):
@@ -26,6 +27,7 @@ def load_and_prepare_image(filename):
 
   # Normalizza i dati dei pixel (supponendo un intervallo di 0-255)
   img = img.astype("float32") / 255.0
+  
 
   return img
 
@@ -51,7 +53,18 @@ def predict_from_image(image):
 
   return numero_predetto
 
+def mostra_immagini(images, path_images):
+    for i in range(len(images)):
 
+        # Visualizza le prime 5 immagini postprocessate
+        if i < 5:
+            plt.figure()
+            plt.imshow(
+                images[i].squeeze(), cmap="gray"
+            )  # Squeeze per rimuovere le dimensioni 1
+            plt.title(f"Immagine {i+1}")
+            plt.axis("off")
+            plt.show()
 
 def main():
   """
@@ -80,7 +93,7 @@ def main():
 
   predizioni_sbagliate=0
   predizioni_giuste=0
-
+  mostra_immagini(images, path_images)
   # Itera sulle immagini e le loro predizioni
   for i in range(len(images)):
         filename = os.listdir(path_images)[i]
