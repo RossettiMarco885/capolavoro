@@ -13,12 +13,18 @@ def load_and_prepare_image(filename):
     print(filename)
 
     # Carica l'immagine come stringa
-    img_string = tf.io.read_file(filename)
+    img = tf.io.read_file(filename)
+    img = tf.image.decode_image(img, channels=3)
+    # Controlla il numero di canali
+    # img_channels = tf.shape(img_string)[-1]
 
-    # Converte la stringa in un tensore di tipo immagine
-    img = tf.image.decode_image(img_string, channels=1)
+    # Se l'immagine ha un solo canale, carica come scala di grigi
+    # if img_channels == 1:
+    #   img = tf.image.decode_image(img_string, channels=1)
+    # else:
+    #   img = tf.image.decode_image(img_string)
 
-    # Controlla il tipo di dati dell'immagine
+    # Converti l'immagine in un tensore di tipo float32
     if img.dtype != tf.float32 and img.dtype != tf.uint8:
         raise TypeError("L'immagine deve essere in formato a virgola mobile o intero")
 
@@ -41,15 +47,17 @@ def load_and_prepare_image(filename):
     # Inverti i colori dell'immagine
     img_np = 1 - img_np
 
+    # Converti in scala di grigi
+    img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
+
     # Reshape in un singolo campione con 1 canale
     img_np = np.reshape(img_np, [1, 28, 28, 1])
 
-    
-    plt.figure()
-    plt.imshow(img_np.squeeze())  # Squeeze per rimuovere le dimensioni 1
-    plt.title(f"Immagine{filename}")
-    plt.axis("off")
-    plt.show()
+    # plt.figure()
+    # plt.imshow(img_np.squeeze(), cmap="gray")  # Squeeze per rimuovere le dimensioni 1
+    # plt.title(f"Immagine{filename}")
+    # plt.axis("off")
+    # plt.show()
     return img_np
 
 
@@ -88,12 +96,11 @@ model = load_model("mnist_cnn.keras")
 # Lista per memorizzare le immagini pre-processate
 images = []
 
+# Carica le immagini e le pre-processa
 images = carica_immagini(images)
 
-# ...
-# mostra_immagini(images,path_images)
-# Dopo aver caricato e preparato l'immagine nel ciclo for
-
+# Visualizza le prime 5 immagini pre-processate
+mostra_immagini(images, path_images)
 
 # Predice i numeri per tutte le immagini in un batch
 predictions = model.predict(np.vstack(images))
