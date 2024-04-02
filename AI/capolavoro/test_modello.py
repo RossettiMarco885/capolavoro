@@ -85,6 +85,7 @@ def mostra_immagini(images, path_images):
             plt.title(f"Immagine {i+1}")
             plt.axis("off")
             plt.show()
+   
 
 
 # Percorso della directory delle immagini
@@ -117,6 +118,17 @@ for i in range(len(images)):
     # Controllo se il numero predetto è uguale al numero nel nome del file
     numero_nel_nome = int(filename[0])
     if numero_nel_nome != int(numero_predetto):
+
+
+
+for i in range(len(images)):
+    filename = os.listdir(path_images)[i]
+    predicted_number = decode_image_name(filename)
+
+    # Controllo se il numero predetto è uguale al numero nel nome del file
+    numero_nel_nome = int(filename.split('_')[0])
+    if predicted_number != numero_nel_nome:
+
         predizioni_sbagliate += 1
         print(
             f"Errore: {filename} --> {numero_nel_nome}, il numero predetto è {numero_predetto}"
@@ -126,6 +138,7 @@ for i in range(len(images)):
         print(
             f"GIUSTO: {filename} --> {numero_nel_nome}, il numero predetto è {numero_predetto}"
         )
+
 print(
     f"le predizioni giuste sono: {predizioni_giuste} \nle predizioni sbagliate sono: {predizioni_sbagliate}\nla percentuale di predizioni corrette è: {predizioni_giuste/predizioni_sbagliate*100}"
 )
