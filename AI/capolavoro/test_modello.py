@@ -44,11 +44,17 @@ def load_and_prepare_image(filename):
     # Reshape in un singolo campione con 1 canale
     img_np = np.reshape(img_np, [1, 28, 28, 1])
 
+    
+    plt.figure()
+    plt.imshow(img_np.squeeze())  # Squeeze per rimuovere le dimensioni 1
+    plt.title(f"Immagine{filename}")
+    plt.axis("off")
+    plt.show()
     return img_np
 
 
 def carica_immagini(images):
-        # Itera sui file nella directory
+    # Itera sui file nella directory
     for filename in os.listdir(path_images):
         # Carica e pre-processa l'immagine
         image = load_and_prepare_image(os.path.join(path_images, filename))
@@ -58,17 +64,15 @@ def carica_immagini(images):
             images.append(image)
     return images
 
-def mostra_immagini(images,path_images):
+
+def mostra_immagini(images, path_images):
     for i in range(len(images)):
-        image = load_and_prepare_image(
-            os.path.join(path_images, os.listdir(path_images)[i])
-        )
 
         # Visualizza le prime 5 immagini postprocessate
         if i < 5:
             plt.figure()
             plt.imshow(
-                image.squeeze(), cmap="gray"
+                images[i].squeeze(), cmap="gray"
             )  # Squeeze per rimuovere le dimensioni 1
             plt.title(f"Immagine {i+1}")
             plt.axis("off")
@@ -87,7 +91,7 @@ images = []
 images = carica_immagini(images)
 
 # ...
-mostra_immagini(images,path_images)
+# mostra_immagini(images,path_images)
 # Dopo aver caricato e preparato l'immagine nel ciclo for
 
 
