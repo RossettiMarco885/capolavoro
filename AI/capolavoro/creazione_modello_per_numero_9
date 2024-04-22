@@ -1,0 +1,67 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.utils import to_categorical
+
+# Caricamento del dataset MNIST
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+
+# Bilancia il dataset includendo un numero maggiore di campioni per il numero 9
+balanced_x_train = []
+balanced_y_train = []
+
+for i in range(10):
+    indices = np.where(y_train == i)[0]
+    if i == 9:
+        # Seleziona un numero maggiore di campioni per il numero 9
+        balanced_x_train.extend(x_train[indices[:10000]])  # Ad esempio, seleziona 10000 campioni per il numero 9
+        balanced_y_train.extend(y_train[indices[:10000]])
+    else:
+        balanced_x_train.extend(x_train[indices[:9900]])  # Seleziona 5000 campioni per gli altri numeri
+        balanced_y_train.extend(y_train[indices[:9900]])
+
+balanced_x_train = np.array(balanced_x_train)
+balanced_y_train = np.array(balanced_y_train)
+
+# Normalizzazione dei dati
+balanced_x_train = balanced_x_train.astype('float32') / 255.0
+x_test = x_test.astype('float32') / 255.0
+
+# Conversione delle etichette in one-hot encoding
+balanced_y_train = to_categorical(balanced_y_train, num_classes=10)
+y_test = to_categorical(y_test, num_classes=10)
+
+# Definizione dell'architettura della CNN
+model = Sequential()
+model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(28, 28, 1)))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
+model.add(Flatten())
+model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(10, activation='softmax'))
+
+# Compilazione del modello
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+# Addestramento del modello
+history = model.fit(balanced_x_train.reshape(-1, 28, 28, 1), balanced_y_train, batch_size=128, epochs=20, verbose=1, validation_data=(x_test.reshape(-1, 28, 28, 1), y_test))
+
+# Valutazione del modello
+test_loss, test_accuracy = model.evaluate(x_test.reshape(-1, 28, 28, 1), y_test)
+print(f'Test accuracy: {test_accuracy}')
+
+# Salvataggio del modello
+model.save("C:\\Users\\rosse\Documents\\GitHub\\capolavoro\\AI\\capolavoro\\mnist_9.keras")
+print('Modello salvato')
+
+# Plot dell'accuratezza durante l'addestramento
+plt.plot(history.history['accuracy'], label='Train Accuracy')
+plt.plot(history.history['val_accuracy'], label='Validation Accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.legend()
+plt.show()

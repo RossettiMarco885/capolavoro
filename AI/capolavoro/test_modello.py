@@ -72,7 +72,7 @@ def predict_from_image(image):
 
 
 # Percorso della directory delle immagini
-path_images = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\AI\\capolavoro\\immagini_postprocessate\\"
+path_images = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\AI\\capolavoro\\immagini_grandi\\"
 
 # Carica il modello Keras pre-allenato
 model = load_model("mnist_cnn.keras")
@@ -91,24 +91,36 @@ mostra_immagini(images, path_images)
 predizioni_giuste = 0
 predizioni_sbagliate = 0
 errori_per_numero = {numero: 0 for numero in range(10)}
+total_per_numero = {numero: 0 for numero in range(10)}
 
 for i in range(len(images)):
-  filename = os.listdir(path_images)[i]
-  numero_nel_nome = int(filename[0])
-  numero_predetto = predict_from_image(images[i])
+    filename = os.listdir(path_images)[i]
+    numero_nel_nome = int(filename[0])
+    numero_predetto = predict_from_image(images[i])
 
-  if numero_nel_nome != numero_predetto:
-    predizioni_sbagliate += 1
-    errori_per_numero[numero_nel_nome] += 1
+    if numero_nel_nome != numero_predetto:
+        predizioni_sbagliate += 1
+        errori_per_numero[numero_nel_nome] += 1
 
-    print(f"Errore: {filename} --> {numero_nel_nome}, il numero predetto è {numero_predetto}")
-  else:
-    predizioni_giuste += 1
-    print(f"GIUSTO: {filename} --> {numero_nel_nome}, il numero predetto è {numero_predetto}")
-for numero, errori in errori_per_numero.items():
-    print(f"Numero {numero}: {errori} errori")
+        print(f"Errore: {filename} --> {numero_nel_nome}, il numero predetto è {numero_predetto}")
+    else:
+        predizioni_giuste += 1
+        print(f"GIUSTO: {filename} --> {numero_nel_nome}, il numero predetto è {numero_predetto}")
 
-if predizioni_sbagliate==0:
-    predizioni_sbagliate=1
-print(
-    f"le predizioni giuste sono: {predizioni_giuste} \nle predizioni sbagliate sono: {predizioni_sbagliate}\nla percentuale di predizioni corrette è: {(predizioni_giuste/predizioni_sbagliate)*100}")
+    total_per_numero[numero_nel_nome] += 1
+
+# Stampa il numero totale di predizioni corrette e sbagliate per ciascun numero
+for numero in range(10):
+    total_predizioni = total_per_numero[numero]
+    total_corrette = total_predizioni - errori_per_numero[numero]
+    total_sbagliate = errori_per_numero[numero]
+
+    print(f"Numero {numero}: Totali={total_predizioni}, Corrette={total_corrette}, Sbagliate={total_sbagliate}")
+
+print(f"Le predizioni giuste sono: {predizioni_giuste}")
+print(f"Le predizioni sbagliate sono: {predizioni_sbagliate}")
+
+# Imposta il valore di predizioni sbagliate a 1 se è zero per evitare divisione per zero
+if predizioni_sbagliate == 0:
+    predizioni_sbagliate = 1
+print(f"La percentuale di predizioni corrette è: {(predizioni_giuste / predizioni_sbagliate) * 100}")
