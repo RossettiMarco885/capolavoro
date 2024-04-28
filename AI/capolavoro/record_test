@@ -1,0 +1,94 @@
+3 per numero
+Numero 0: Totali=3, Corrette=1, Sbagliate=2
+Numero 1: Totali=3, Corrette=0, Sbagliate=3
+Numero 2: Totali=3, Corrette=3, Sbagliate=0
+Numero 3: Totali=3, Corrette=0, Sbagliate=3
+Numero 4: Totali=3, Corrette=0, Sbagliate=3
+Numero 5: Totali=3, Corrette=2, Sbagliate=1
+Numero 6: Totali=3, Corrette=0, Sbagliate=3
+Numero 7: Totali=3, Corrette=1, Sbagliate=2
+Numero 8: Totali=3, Corrette=1, Sbagliate=2
+Numero 9: Totali=3, Corrette=0, Sbagliate=3
+
+4 per numero
+Numero 0: Totali=4, Corrette=1, Sbagliate=3
+Numero 1: Totali=4, Corrette=0, Sbagliate=4
+Numero 2: Totali=4, Corrette=4, Sbagliate=0
+Numero 3: Totali=4, Corrette=1, Sbagliate=3
+Numero 4: Totali=4, Corrette=0, Sbagliate=4
+Numero 5: Totali=4, Corrette=3, Sbagliate=1
+Numero 6: Totali=4, Corrette=0, Sbagliate=4
+Numero 7: Totali=4, Corrette=1, Sbagliate=3
+Numero 8: Totali=4, Corrette=1, Sbagliate=3
+Numero 9: Totali=4, Corrette=0, Sbagliate=4
+
+5 per numero
+Numero 0: Totali=4, Corrette=1, Sbagliate=3
+Numero 1: Totali=5, Corrette=0, Sbagliate=5
+Numero 2: Totali=5, Corrette=5, Sbagliate=0
+Numero 3: Totali=5, Corrette=2, Sbagliate=3
+Numero 4: Totali=5, Corrette=1, Sbagliate=4
+Numero 5: Totali=5, Corrette=4, Sbagliate=1
+Numero 6: Totali=5, Corrette=0, Sbagliate=5
+Numero 7: Totali=5, Corrette=1, Sbagliate=4
+Numero 8: Totali=5, Corrette=1, Sbagliate=4
+Numero 9: Totali=5, Corrette=0, Sbagliate=5
+
+5  con filtro bilineare
+Numero 0: Totali=4, Corrette=1, Sbagliate=3
+Numero 1: Totali=5, Corrette=1, Sbagliate=4
+Numero 2: Totali=5, Corrette=5, Sbagliate=0
+Numero 3: Totali=5, Corrette=2, Sbagliate=3
+Numero 4: Totali=5, Corrette=1, Sbagliate=4
+Numero 5: Totali=5, Corrette=4, Sbagliate=1
+Numero 6: Totali=5, Corrette=0, Sbagliate=5
+Numero 7: Totali=5, Corrette=0, Sbagliate=5
+Numero 8: Totali=5, Corrette=2, Sbagliate=3
+Numero 9: Totali=5, Corrette=0, Sbagliate=5
+Le predizioni giuste sono: 16
+Le predizioni sbagliate sono: 33
+La percentuale di predizioni corrette è: 48.484848484848484
+
+6 bil
+Numero 0: Totali=5, Corrette=1, Sbagliate=4
+Numero 1: Totali=6, Corrette=1, Sbagliate=5
+Numero 2: Totali=6, Corrette=6, Sbagliate=0
+Numero 3: Totali=6, Corrette=3, Sbagliate=3
+Numero 4: Totali=6, Corrette=1, Sbagliate=5
+Numero 5: Totali=6, Corrette=5, Sbagliate=1
+Numero 6: Totali=6, Corrette=0, Sbagliate=6
+Numero 7: Totali=6, Corrette=0, Sbagliate=6
+Numero 8: Totali=6, Corrette=3, Sbagliate=3
+Numero 9: Totali=6, Corrette=0, Sbagliate=6
+Le predizioni giuste sono: 20
+Le predizioni sbagliate sono: 39
+La percentuale di predizioni corrette è: 51.28205128205128
+7 bil
+Numero 0: Totali=6, Corrette=1, Sbagliate=5
+Numero 1: Totali=7, Corrette=1, Sbagliate=6
+Numero 2: Totali=7, Corrette=7, Sbagliate=0
+Numero 3: Totali=7, Corrette=4, Sbagliate=3
+Numero 4: Totali=7, Corrette=1, Sbagliate=6
+Numero 5: Totali=7, Corrette=6, Sbagliate=1
+Numero 6: Totali=7, Corrette=0, Sbagliate=7
+Numero 7: Totali=7, Corrette=1, Sbagliate=6
+Numero 8: Totali=7, Corrette=3, Sbagliate=4
+Numero 9: Totali=7, Corrette=0, Sbagliate=7
+Le predizioni giuste sono: 24
+Le predizioni sbagliate sono: 45
+La percentuale di predizioni corrette è: 53.333333333333336
+
+8 bil --> solo una giusta  :(
+Numero 0: Totali=7, Corrette=1, Sbagliate=6
+Numero 1: Totali=8, Corrette=1, Sbagliate=7
+Numero 2: Totali=8, Corrette=7, Sbagliate=1
+Numero 3: Totali=8, Corrette=4, Sbagliate=4
+Numero 4: Totali=8, Corrette=1, Sbagliate=7
+Numero 5: Totali=8, Corrette=7, Sbagliate=1
+Numero 6: Totali=8, Corrette=0, Sbagliate=8
+Numero 7: Totali=8, Corrette=1, Sbagliate=7
+Numero 8: Totali=8, Corrette=3, Sbagliate=5
+Numero 9: Totali=8, Corrette=0, Sbagliate=8
+Le predizioni giuste sono: 25
+Le predizioni sbagliate sono: 54
+La percentuale di predizioni corrette è: 46.2962962962963

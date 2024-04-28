@@ -8,67 +8,99 @@ import cv2
 
 
 def load_and_prepare_image(filename):
+    """
+    Carica e pre-processa un'immagine di un numero scritto a mano.
 
-  # Carica l'immagine in modalità grayscale con dimensione target di 28x28
-  img = image_utils.load_img(filename, color_mode="grayscale", target_size=(28, 28))
+    Args:
+        filename: Il nome del file immagine.
 
-  # Converte l'immagine in un array NumPy
-  img = image_utils.img_to_array(img)
-  # Denoising con filtro bilaterale
-  #img = cv2.bilateralFilter(img, 7, 66, 66)
-  
-  # Reshape in un singolo campione con 1 canale
-  img = img.reshape(1, 28, 28, 1)
+    Returns:
+        L'immagine pre-processata in formato NumPy.
+    """
 
-  # Normalizza i dati dei pixel (supponendo un intervallo di 0-255)
-  # img = 1 - img
-  img = img.astype("float32") / 255.0
-  
-  return img
+    # Carica l'immagine in modalità grayscale con dimensione target di 28x28
+    img = image_utils.load_img(filename, color_mode="grayscale", target_size=(28, 28))
+
+    # Converte l'immagine in un array NumPy
+    img = image_utils.img_to_array(img)
+
+    # Denoising con filtro bilaterale
+    img = cv2.bilateralFilter(img, 9, 75, 75)
+
+    # Reshape in un singolo campione con 1 canale
+    img = img.reshape(1, 28, 28, 1)
+
+    # Normalizza i dati dei pixel (supponendo un intervallo di 0-255)
+    # img = 1 - img
+    img = img.astype("float32") / 255.0
+
+    return img
 
 
 def carica_immagini(images):
-  # Itera sui file nella directory
-  for filename in os.listdir(path_images):
-    # Carica e pre-processa l'immagine
-    image = load_and_prepare_image(os.path.join(path_images, filename))
+    """
+    Carica le immagini dalla directory specificata e le pre-processa.
 
-    # Se l'immagine è stata caricata correttamente
-    if image is not None:
-      images.append(image)
-  return images
+    Args:
+        images: Lista per memorizzare le immagini pre-processate.
+
+    Returns:
+        La lista di immagini pre-processate.
+    """
+
+    # Itera sui file nella directory
+    for filename in os.listdir(path_images):
+        # Carica e pre-processa l'immagine
+        image = load_and_prepare_image(os.path.join(path_images, filename))
+
+        # Se l'immagine è stata caricata correttamente
+        if image is not None:
+            images.append(image)
+    return images
 
 
 def mostra_immagini(images, path_images):
-  for i in range(len(images)):
+    """
+    Visualizza le prime n immagini pre-processate.
 
-    # Visualizza le prime 5 immagini postprocessate
-    if i < 0:
-      plt.figure()
-      plt.imshow(
-          images[i].squeeze(), cmap="gray"
-      )  # Squeeze per rimuovere le dimensioni 1
-      plt.title(f"Immagine {i+1}")
-      plt.axis("off")
-      plt.show()
+    Args:
+        images: La lista di immagini pre-processate.
+        path_images: Il percorso della directory delle immagini.
+    """
+
+    #modificare n con il numero di cifre massimo in un numero per vederne una per numero
+    #es. 77777 --> 5 cifre e quindi n=5
+    n = 5
+    for i in range(len(images)):
+
+        # Visualizza le prime n immagini postprocessate
+        #if i < 1000 and i % n == 0:
+         if i<0:
+            plt.figure()
+            plt.imshow(
+                images[i].squeeze(), cmap="gray"
+            )  # Squeeze per rimuovere le dimensioni 1
+            plt.title(f"Immagine {i+1}")
+            plt.axis("off")
+            plt.show()
 
 
 def predict_from_image(image):
-  """
-  Funzione per predire il numero dall'immagine.
+    """
+    Funzione per predire il numero dall'immagine.
 
-  Args:
-    image: L'immagine pre-processata in formato NumPy.
+    Args:
+        image: L'immagine pre-processata in formato NumPy.
 
-  Returns:
-    Il numero predetto dall'immagine.
-  """
+    Returns:
+        Il numero predetto dall'immagine.
+    """
 
-  # Predizione del numero
-  prediction = model.predict(image)
-  numero_predetto = np.argmax(prediction)
+    # Predizione del numero
+    prediction = model.predict(image)
+    numero_predetto = np.argmax(prediction)
 
-  return numero_predetto
+    return numero_predetto
 
 
 # Percorso della directory delle immagini
@@ -124,3 +156,5 @@ print(f"Le predizioni sbagliate sono: {predizioni_sbagliate}")
 if predizioni_sbagliate == 0:
     predizioni_sbagliate = 1
 print(f"La percentuale di predizioni corrette è: {(predizioni_giuste / predizioni_sbagliate) * 100}")
+
+
