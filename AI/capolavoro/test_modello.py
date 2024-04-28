@@ -104,10 +104,10 @@ def predict_from_image(image):
 
 
 # Percorso della directory delle immagini
-path_images = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\AI\\capolavoro\\immagini_grandi\\"
+path_images = "D:\\immagini_grandi\\"
 
 # Carica il modello Keras pre-allenato
-model = load_model("mnist_cnn.keras")
+model = load_model("mnist_numeri_miei.keras")
 
 # Lista per memorizzare le immagini pre-processate
 images = []
@@ -155,6 +155,6 @@ print(f"Le predizioni sbagliate sono: {predizioni_sbagliate}")
 # Imposta il valore di predizioni sbagliate a 1 se è zero per evitare divisione per zero
 if predizioni_sbagliate == 0:
     predizioni_sbagliate = 1
-print(f"La percentuale di predizioni corrette è: {(predizioni_giuste / predizioni_sbagliate) * 100}")
+print(f"La percentuale di predizioni corrette è: {(predizioni_giuste / (predizioni_giuste+predizioni_sbagliate)) * 100}")
 
 

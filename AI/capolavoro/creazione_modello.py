@@ -75,5 +75,5 @@ model.fit(
 model.evaluate(x_test, y_test)
 
 # Salvataggio del modello
-model.save("C:\\Users\\rosse\Documents\\GitHub\\capolavoro\\AI\\capolavoro\\mnist_9.keras")
+model.save("C:\\Users\\rosse\Documents\\GitHub\\capolavoro\\AI\\capolavoro\\mnist_cnn.keras")
 print("modello salvato")

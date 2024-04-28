@@ -49,7 +49,8 @@ Le predizioni giuste sono: 16
 Le predizioni sbagliate sono: 33
 La percentuale di predizioni corrette è: 48.484848484848484
 
-6 bil
+
+6 
 Numero 0: Totali=5, Corrette=1, Sbagliate=4
 Numero 1: Totali=6, Corrette=1, Sbagliate=5
 Numero 2: Totali=6, Corrette=6, Sbagliate=0
@@ -63,7 +64,9 @@ Numero 9: Totali=6, Corrette=0, Sbagliate=6
 Le predizioni giuste sono: 20
 Le predizioni sbagliate sono: 39
 La percentuale di predizioni corrette è: 51.28205128205128
-7 bil
+
+
+7 
 Numero 0: Totali=6, Corrette=1, Sbagliate=5
 Numero 1: Totali=7, Corrette=1, Sbagliate=6
 Numero 2: Totali=7, Corrette=7, Sbagliate=0
@@ -78,7 +81,8 @@ Le predizioni giuste sono: 24
 Le predizioni sbagliate sono: 45
 La percentuale di predizioni corrette è: 53.333333333333336
 
-8 bil --> solo una giusta  :(
+
+8  --> solo una giusta  :(
 Numero 0: Totali=7, Corrette=1, Sbagliate=6
 Numero 1: Totali=8, Corrette=1, Sbagliate=7
 Numero 2: Totali=8, Corrette=7, Sbagliate=1
@@ -92,3 +96,68 @@ Numero 9: Totali=8, Corrette=0, Sbagliate=8
 Le predizioni giuste sono: 25
 Le predizioni sbagliate sono: 54
 La percentuale di predizioni corrette è: 46.2962962962963
+
+
+9 
+Numero 0: Totali=8, Corrette=1, Sbagliate=7
+Numero 1: Totali=9, Corrette=1, Sbagliate=8
+Numero 2: Totali=9, Corrette=8, Sbagliate=1
+Numero 3: Totali=9, Corrette=5, Sbagliate=4
+Numero 4: Totali=9, Corrette=2, Sbagliate=7
+Numero 5: Totali=9, Corrette=8, Sbagliate=1
+Numero 6: Totali=9, Corrette=1, Sbagliate=8
+Numero 7: Totali=9, Corrette=1, Sbagliate=8
+Numero 8: Totali=9, Corrette=3, Sbagliate=6
+Numero 9: Totali=9, Corrette=0, Sbagliate=9
+Le predizioni giuste sono: 30
+Le predizioni sbagliate sono: 59
+La percentuale di predizioni corrette è: 50.847457627118644
+
+10
+Numero 0: Totali=9, Corrette=1, Sbagliate=8
+Numero 1: Totali=10, Corrette=1, Sbagliate=9
+Numero 2: Totali=10, Corrette=9, Sbagliate=1
+Numero 3: Totali=10, Corrette=5, Sbagliate=5
+Numero 4: Totali=10, Corrette=2, Sbagliate=8
+Numero 5: Totali=10, Corrette=9, Sbagliate=1
+Numero 6: Totali=10, Corrette=1, Sbagliate=9
+Numero 7: Totali=10, Corrette=2, Sbagliate=8
+Numero 8: Totali=10, Corrette=3, Sbagliate=7
+Numero 9: Totali=10, Corrette=0, Sbagliate=10
+Le predizioni giuste sono: 33
+Le predizioni sbagliate sono: 66
+La percentuale di predizioni corrette è: 50.0
+
+
+
+12 ultime 2 fatte da martina
+Numero 0: Totali=12, Corrette=3, Sbagliate=9
+Numero 1: Totali=12, Corrette=1, Sbagliate=11
+Numero 2: Totali=12, Corrette=10, Sbagliate=2
+Numero 3: Totali=12, Corrette=5, Sbagliate=7
+Numero 4: Totali=12, Corrette=2, Sbagliate=10
+Numero 5: Totali=12, Corrette=9, Sbagliate=3
+Numero 6: Totali=12, Corrette=1, Sbagliate=11
+Numero 7: Totali=12, Corrette=3, Sbagliate=9
+Numero 8: Totali=12, Corrette=4, Sbagliate=8
+Numero 9: Totali=12, Corrette=0, Sbagliate=12
+Le predizioni giuste sono: 38
+Le predizioni sbagliate sono: 82
+La percentuale di predizioni corrette è: 46.34146341463415
+
+
+16 ultime 6 di martina
+Numero 0: Totali=16, Corrette=4, Sbagliate=12
+Numero 1: Totali=16, Corrette=1, Sbagliate=15
+Numero 2: Totali=16, Corrette=12, Sbagliate=4
+Numero 3: Totali=16, Corrette=5, Sbagliate=11
+Numero 4: Totali=16, Corrette=2, Sbagliate=14
+Numero 5: Totali=16, Corrette=13, Sbagliate=3
+Numero 6: Totali=16, Corrette=2, Sbagliate=14
+Numero 7: Totali=16, Corrette=4, Sbagliate=12
+Numero 8: Totali=16, Corrette=4, Sbagliate=12
+Numero 9: Totali=16, Corrette=0, Sbagliate=16
+Le predizioni giuste sono: 47
+Le predizioni sbagliate sono: 113
+La percentuale di predizioni corrette è: 41.5929203539823
+
