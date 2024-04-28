@@ -70,7 +70,7 @@ def mostra_immagini(images, path_images):
 
     #modificare n con il numero di cifre massimo in un numero per vederne una per numero
     #es. 77777 --> 5 cifre e quindi n=5
-    n = 5
+    #n = 5
     for i in range(len(images)):
 
         # Visualizza le prime n immagini postprocessate

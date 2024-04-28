@@ -177,3 +177,50 @@ Numero 9: Totali=4, Corrette=4, Sbagliate=0
 Le predizioni giuste sono: 35
 Le predizioni sbagliate sono: 5
 La percentuale di predizioni corrette è: 87.5
+
+AGGIUNTE 30 IMMAGINI AL TEST sono di dimensioni diverse e penso sia questo il problema
+Numero 0: Totali=7, Corrette=5, Sbagliate=2
+Numero 1: Totali=7, Corrette=6, Sbagliate=1
+Numero 2: Totali=7, Corrette=4, Sbagliate=3
+Numero 3: Totali=7, Corrette=4, Sbagliate=3
+Numero 4: Totali=7, Corrette=5, Sbagliate=2
+Numero 5: Totali=7, Corrette=5, Sbagliate=2
+Numero 6: Totali=7, Corrette=5, Sbagliate=2
+Numero 7: Totali=7, Corrette=4, Sbagliate=3
+Numero 8: Totali=7, Corrette=5, Sbagliate=2
+Numero 9: Totali=7, Corrette=7, Sbagliate=0
+Le predizioni giuste sono: 50
+Le predizioni sbagliate sono: 20
+La percentuale di predizioni corrette è: 71.42857142857143
+
+
+aggiunte 20 immagini
+Numero 0: Totali=9, Corrette=7, Sbagliate=2
+Numero 1: Totali=9, Corrette=8, Sbagliate=1
+Numero 2: Totali=9, Corrette=6, Sbagliate=3
+Numero 3: Totali=9, Corrette=6, Sbagliate=3
+Numero 4: Totali=9, Corrette=6, Sbagliate=3
+Numero 5: Totali=9, Corrette=7, Sbagliate=2
+Numero 6: Totali=9, Corrette=7, Sbagliate=2
+Numero 7: Totali=9, Corrette=6, Sbagliate=3
+Numero 8: Totali=9, Corrette=7, Sbagliate=2
+Numero 9: Totali=9, Corrette=9, Sbagliate=0
+Le predizioni giuste sono: 69
+Le predizioni sbagliate sono: 21
+La percentuale di predizioni corrette è: 76.66666666666667
+
+
+TOLTE LE IMMAGINI CHE AVEVANO UNA DIMENSIONE DIVERSA
+Numero 0: Totali=6, Corrette=6, Sbagliate=0
+Numero 1: Totali=6, Corrette=6, Sbagliate=0
+Numero 2: Totali=6, Corrette=6, Sbagliate=0
+Numero 3: Totali=6, Corrette=5, Sbagliate=1
+Numero 4: Totali=6, Corrette=4, Sbagliate=2
+Numero 5: Totali=6, Corrette=5, Sbagliate=1
+Numero 6: Totali=6, Corrette=5, Sbagliate=1
+Numero 7: Totali=6, Corrette=5, Sbagliate=1
+Numero 8: Totali=6, Corrette=6, Sbagliate=0
+Numero 9: Totali=6, Corrette=6, Sbagliate=0
+Le predizioni giuste sono: 54
+Le predizioni sbagliate sono: 6
+La percentuale di predizioni corrette è: 90.0
