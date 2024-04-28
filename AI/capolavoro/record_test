@@ -47,7 +47,7 @@ Numero 8: Totali=5, Corrette=2, Sbagliate=3
 Numero 9: Totali=5, Corrette=0, Sbagliate=5
 Le predizioni giuste sono: 16
 Le predizioni sbagliate sono: 33
-La percentuale di predizioni corrette è: 48.484848484848484
+
 
 
 6 
@@ -63,7 +63,7 @@ Numero 8: Totali=6, Corrette=3, Sbagliate=3
 Numero 9: Totali=6, Corrette=0, Sbagliate=6
 Le predizioni giuste sono: 20
 Le predizioni sbagliate sono: 39
-La percentuale di predizioni corrette è: 51.28205128205128
+
 
 
 7 
@@ -79,7 +79,7 @@ Numero 8: Totali=7, Corrette=3, Sbagliate=4
 Numero 9: Totali=7, Corrette=0, Sbagliate=7
 Le predizioni giuste sono: 24
 Le predizioni sbagliate sono: 45
-La percentuale di predizioni corrette è: 53.333333333333336
+
 
 
 8  --> solo una giusta  :(
@@ -95,7 +95,7 @@ Numero 8: Totali=8, Corrette=3, Sbagliate=5
 Numero 9: Totali=8, Corrette=0, Sbagliate=8
 Le predizioni giuste sono: 25
 Le predizioni sbagliate sono: 54
-La percentuale di predizioni corrette è: 46.2962962962963
+
 
 
 9 
@@ -111,7 +111,7 @@ Numero 8: Totali=9, Corrette=3, Sbagliate=6
 Numero 9: Totali=9, Corrette=0, Sbagliate=9
 Le predizioni giuste sono: 30
 Le predizioni sbagliate sono: 59
-La percentuale di predizioni corrette è: 50.847457627118644
+
 
 10
 Numero 0: Totali=9, Corrette=1, Sbagliate=8
@@ -126,7 +126,7 @@ Numero 8: Totali=10, Corrette=3, Sbagliate=7
 Numero 9: Totali=10, Corrette=0, Sbagliate=10
 Le predizioni giuste sono: 33
 Le predizioni sbagliate sono: 66
-La percentuale di predizioni corrette è: 50.0
+
 
 
 
@@ -143,7 +143,7 @@ Numero 8: Totali=12, Corrette=4, Sbagliate=8
 Numero 9: Totali=12, Corrette=0, Sbagliate=12
 Le predizioni giuste sono: 38
 Le predizioni sbagliate sono: 82
-La percentuale di predizioni corrette è: 46.34146341463415
+
 
 
 16 ultime 6 di martina
@@ -159,5 +159,21 @@ Numero 8: Totali=16, Corrette=4, Sbagliate=12
 Numero 9: Totali=16, Corrette=0, Sbagliate=16
 Le predizioni giuste sono: 47
 Le predizioni sbagliate sono: 113
-La percentuale di predizioni corrette è: 41.5929203539823
 
+
+TEST FATTO DOPO AVER DIVISO LE MIE IMMAGINI IN IMMAGINI DI TEST
+E DI ADDESTRAMENTO E AVER ADDESTRATO IL MODELLO SOLO SU QUELLE DI ADDESTTRAMENTO
+E AVER TESTATO IL MODELLO SOLO SU QUELLE DI TEST
+Numero 0: Totali=4, Corrette=4, Sbagliate=0
+Numero 1: Totali=4, Corrette=4, Sbagliate=0
+Numero 2: Totali=4, Corrette=4, Sbagliate=0
+Numero 3: Totali=4, Corrette=3, Sbagliate=1
+Numero 4: Totali=4, Corrette=3, Sbagliate=1
+Numero 5: Totali=4, Corrette=3, Sbagliate=1
+Numero 6: Totali=4, Corrette=3, Sbagliate=1
+Numero 7: Totali=4, Corrette=3, Sbagliate=1
+Numero 8: Totali=4, Corrette=4, Sbagliate=0
+Numero 9: Totali=4, Corrette=4, Sbagliate=0
+Le predizioni giuste sono: 35
+Le predizioni sbagliate sono: 5
+La percentuale di predizioni corrette è: 87.5
