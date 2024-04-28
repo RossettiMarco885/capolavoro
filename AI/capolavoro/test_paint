@@ -1,0 +1,163 @@
+import tkinter as tk
+import cv2
+import numpy as np
+from tensorflow.keras.models import load_model
+from PIL import Image, ImageGrab, ImageTk
+import uuid
+import os
+import tkinter.messagebox as mb
+import platform
+import ctypes
+
+# Load the trained model
+model = load_model("mnist_numeri_miei.keras")
+
+# Variables to store prediction history and image label
+prediction_history = []
+image_label = None
+
+# Create the main GUI window
+root = tk.Tk()
+root.title("Riconoscimento Numeri")
+
+# Define the canvas for drawing
+canvas = tk.Canvas(root, width=260, height=220, bg="white", borderwidth=5)
+canvas.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
+
+# Function to handle mouse motion for drawing
+def paint(event):
+    x1, y1 = (event.x - 10), (event.y - 10)
+    x2, y2 = (event.x + 10), (event.y + 10)
+    canvas.create_oval(x1, y1, x2, y2, fill="black", width=10)
+
+# Bind mouse events for drawing on the canvas
+canvas.bind("<B1-Motion>", paint)
+
+# Function to predict the number from the drawn image
+def predict_number():
+    try:
+       # Ottieni le coordinate assolute della finestra del canvas rispetto allo schermo
+        x = root.winfo_rootx() + canvas.winfo_rootx()
+        y = root.winfo_rooty() + canvas.winfo_rooty()
+        w, h = canvas.winfo_width(), canvas.winfo_height()
+
+        # Cattura l'immagine solo dalla finestra del canvas
+        img = ImageGrab.grab(bbox=(x, y, x + w, y + h))
+
+
+        # Convert to OpenCV image
+        opencv_img = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2RGB)
+
+        # Preprocess the image
+        gray = cv2.cvtColor(opencv_img, cv2.COLOR_BGR2GRAY)
+        gray = cv2.resize(gray, (28, 28))
+        gray = gray.astype('float32') / 255
+        img_data = gray.reshape(1, 28, 28, 1)
+
+        # Make prediction with the model
+        prediction = model.predict(img_data)
+        predicted_number = np.argmax(prediction)
+
+        # Display the predicted number
+        predicted_label.config(text=f"Numero predetto: {predicted_number}")
+
+        # Save the image to a file
+        save_image(opencv_img, predicted_number)
+
+    except Exception as e:
+        mb.showerror("Errore", f"Si è verificato un errore: {e}")
+
+# Function to save the predicted image
+def save_image(img, predicted_number):
+    try:
+        # Create a directory to store images if it doesn't exist
+        image_dir = "captured_images"
+        if not os.path.exists(image_dir):
+            os.makedirs(image_dir)
+
+        # Generate a unique filename based on the predicted number
+        filename = f"{predicted_number}_{uuid.uuid4()}.png"
+
+        # Save the image
+        cv2.imwrite(os.path.join(image_dir, filename), img)
+
+        # Open the image in a separate window
+        open_image(filename)
+
+        # Update prediction history
+        prediction_history.append((predicted_number, filename))
+
+    except Exception as e:
+        mb.showerror("Errore", f"Si è verificato un errore durante il salvataggio dell'immagine: {e}")
+
+#
+
+# Function to open the saved image
+def open_image(filename):
+    try:
+        # Create a temporary window to display the image
+        image_window = tk.Toplevel(root)
+        image_window.title(f"Immagine {filename}")
+
+        # Load the image using Pillow
+        image = Image.open(os.path.join("captured_images", filename))
+
+        # Resize the image to fit the window
+        window_width = 500  # Define the width of the window
+        window_height = int((image.height / image.width) * window_width)  # Calculate the height to maintain aspect ratio
+        resized_image = image.resize((window_width, window_height))
+
+        # Convert the image to a Tkinter PhotoImage object
+        img_tk = ImageTk.PhotoImage(resized_image)
+
+        # Create a label to display the image
+        image_label = tk.Label(image_window, image=img_tk)
+        image_label.image = img_tk  # Keep a reference to avoid garbage collection
+
+        # Add the label to the window
+        image_label.pack()
+
+        # Run the Tkinter main loop for the image window
+        image_window.mainloop()
+
+    except Exception as e:
+        mb.showerror("Errore", f"Si è verificato un errore durante l'apertura dell'immagine: {e}")
+
+    try:
+        # Create a temporary window to display the image
+        image_window = tk.Toplevel(root)
+        image_window.title(f"Immagine {filename}")
+
+        # Load the image using Pillow
+        image = Image.open(os.path.join("captured_images", filename))
+
+        # Resize the image to fit the window
+        window_width = 500  # Define the width of the window
+        window_height = int((image.height / image.width) * window_width)  # Calculate the height to maintain aspect ratio
+        resized_image = image.resize((window_width, window_height), Image.ANTIALIAS)
+
+        # Convert the image to a Tkinter PhotoImage object
+        img_tk = ImageTk.PhotoImage(resized_image)
+
+        # Create a label to display the image
+        image_label = tk.Label(image_window, image=img_tk)
+        image_label.image = img_tk  # Keep a reference to avoid garbage collection
+
+        # Add the label to the window
+        image_label.pack()
+
+        # Run the Tkinter main loop for the image window
+        image_window.mainloop()
+
+    except Exception as e:
+        mb.showerror("Errore", f"Si è verificato un errore durante l'apertura dell'immagine: {e}")
+
+# Button to predict the number
+predict_button = tk.Button(root, text="Predici Numero", command=predict_number)
+predict_button.grid(row=1, column=0, columnspan=3, pady=10)
+
+# Label to display the predicted number
+predicted_label = tk.Label(root, text="")
+predicted_label.grid(row=2, column=0, columnspan=3)
+
+root.mainloop()
