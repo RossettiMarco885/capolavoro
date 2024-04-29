@@ -22,8 +22,6 @@ root.title("Riconoscimento Numeri")
 # Define the canvas for drawing
 canvas = tk.Canvas(root, width=260, height=220, bg="white", borderwidth=5)
 canvas.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
-
-# Function to handle mouse motion for drawing
 def paint(event):
     x1, y1 = (event.x - 10), (event.y - 10)
     x2, y2 = (event.x + 10), (event.y + 10)
@@ -45,48 +43,12 @@ clear_button.grid(row=3, column=0, columnspan=3, pady=10)
 def predict_number():
     try:
         # Ottieni le coordinate assolute della finestra del canvas rispetto allo schermo
-        x, y = root.winfo_rootx() + canvas.winfo_rootx() - 10, root.winfo_rooty() + canvas.winfo_rooty() - 10
-        w, h = canvas.winfo_width() + 10, canvas.winfo_height() + 20  # Aggiungiamo 10 pixel al totale per il margine
-
+        x, y = root.winfo_rootx()+30, root.winfo_rooty()+10
+        w, h = root.winfo_width(), root.winfo_height()  # Aggiungiamo 10 pixel al totale per il margine
+       
+        print(x, y, x + w,y + h)
         # Cattura l'immagine solo dalla finestra del canvas con il margine aggiunto
-        img = ImageGrab.grab(bbox=(x, y, x + w, y + h))
-
-        # Convert the image to a numpy array
-        img = np.array(img)
-
-        # Resize the image to 28x28
-        img_resized = cv2.resize(img, (28, 28))
-
-        # Convert to grayscale if necessary
-        if len(img_resized.shape) == 3:
-            img_resized = cv2.cvtColor(img_resized, cv2.COLOR_BGR2GRAY)
-
-        # Reshape the image to have a single channel
-        img_final = img_resized.reshape(1, 28, 28, 1)
-
-        # Preprocess the image
-        img_final = img_final.astype('float32') / 255.0
-
-        # Make prediction with the model
-        prediction = model.predict(img_final)
-        predicted_number = np.argmax(prediction)
-
-        # Display the predicted number
-        predicted_label.config(text=f"Numero predetto: {predicted_number}")
-
-        # Save the image to a file
-        save_image(img_resized, predicted_number)
-
-    except Exception as e:
-        mb.showerror("Errore", f"Si è verificato un errore: {e}")
-
-    try:
-        # Ottieni le coordinate assolute della finestra del canvas rispetto allo schermo
-        x, y = root.winfo_rootx() + canvas.winfo_rootx(), root.winfo_rooty() + canvas.winfo_rooty()
-        w, h = canvas.winfo_width(), canvas.winfo_height()
-
-        # Cattura l'immagine solo dalla finestra del canvas
-        img = ImageGrab.grab(bbox=(x, y, x + w, y + h))
+        img = ImageGrab.grab(bbox=(x, y, x + w,y + h))
 
         # Convert the image to a numpy array
         img = np.array(img)
