@@ -20,7 +20,7 @@ root = tk.Tk()
 root.title("Riconoscimento Numeri")
 
 # Define the canvas for drawing
-canvas = tk.Canvas(root, width=260, height=220, bg="white", borderwidth=5)
+canvas = tk.Canvas(root, width=700, height=700, bg="white", borderwidth=5)
 canvas.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 def paint(event):
     x1, y1 = (event.x - 10), (event.y - 10)
@@ -42,14 +42,15 @@ clear_button.grid(row=3, column=0, columnspan=3, pady=10)
 # Function to predict the number from the drawn image
 def predict_number():
     try:
-        x0 = canvas.winfo_rootx()+20
-        y0 = canvas.winfo_rooty()+20
-        x1 = x0 + canvas.winfo_width()
-        y1 = y0 + canvas.winfo_height()
-        
+        x0 = canvas.winfo_rootx()
+        y0 = canvas.winfo_rooty()
+        #x1 = x0 + canvas.winfo_width()
+        #y1 = y0 + canvas.winfo_height()
+        x1=1050
+        y1=1080
         img = ImageGrab.grab((x0, y0, x1+x0, y1+y0))
         img.save('mypic.png') # Can also say im.show() to display it
-        img.show()
+        #img.show()
 
 
         # Convert the image to a numpy array
@@ -67,7 +68,7 @@ def predict_number():
 
         # Preprocess the image
         img_final = img_final.astype('float32') / 255.0
-
+        
         # Make prediction with the model
         prediction = model.predict(img_final)
         predicted_number = np.argmax(prediction)
@@ -76,7 +77,7 @@ def predict_number():
         predicted_label.config(text=f"Numero predetto: {predicted_number}")
 
         # Save the image to a file
-        save_image(img_resized, predicted_number)
+       # save_image(img_resized, predicted_number)
 
     except Exception as e:
         mb.showerror("Errore", f"Si è verificato un errore: {e}")
@@ -96,7 +97,7 @@ def save_image(img, predicted_number):
         cv2.imwrite(os.path.join(image_dir, filename), img)
 
         # Open the image in a separate window
-        open_image(filename)
+        #open_image(filename)
 
         # Update prediction history
         prediction_history.append((predicted_number, filename))
