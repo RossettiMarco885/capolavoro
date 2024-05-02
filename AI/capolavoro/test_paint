@@ -43,8 +43,8 @@ clear_button.grid(row=3, column=0, columnspan=3, pady=10)
 def predict_number():
     try:
         # Ottieni le coordinate assolute della finestra del canvas rispetto allo schermo
-        x, y = root.winfo_rootx()+30, root.winfo_rooty()+10
-        w, h = root.winfo_width(), root.winfo_height()  # Aggiungiamo 10 pixel al totale per il margine
+        x, y = root.winfo_rootx()+50, root.winfo_rooty()+50
+        w, h = root.winfo_width()+100, root.winfo_height()  # Aggiungiamo 10 pixel al totale per il margine
        
         print(x, y, x + w,y + h)
         # Cattura l'immagine solo dalla finestra del canvas con il margine aggiunto
