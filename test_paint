@@ -46,8 +46,15 @@ def predict_number():
         y0 = canvas.winfo_rooty()
         #x1 = x0 + canvas.winfo_width()
         #y1 = y0 + canvas.winfo_height()
-        x1=900
-        y1=900
+        
+        #schermo FULLHD
+        #x1=900
+        #y1=900
+        
+        #schermo 2k
+        x1=1050
+        y1=1050
+        
         img = ImageGrab.grab((x0, y0, x1+x0, y1+y0))
         #img.save('mypic.png') # Can also say im.show() to display it
         #img.show()
@@ -76,7 +83,7 @@ def predict_number():
         # Display the predicted number
         predicted_label.config(text=f"Numero predetto: {predicted_number}")
 
-        # Save the image to a file
+        # Save the image to a file e la mostra a schermo
         #save_image(img_resized, predicted_number)
 
     except Exception as e:

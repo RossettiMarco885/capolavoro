@@ -1,0 +1,160 @@
+import tkinter as tk
+import cv2
+import numpy as np
+from tensorflow.keras.models import load_model
+import keras.preprocessing.image as image_utils
+from PIL import Image, ImageGrab, ImageTk
+import uuid
+import os
+import tkinter.messagebox as mb
+import matplotlib.pyplot as plt
+
+# Load the trained model
+model = load_model("mnist_numeri_miei.keras")
+
+# Create the main GUI window
+root = tk.Tk()
+root.title("Riconoscimento Numeri")
+
+# Define the canvas for drawing
+canvas = tk.Canvas(root, width=700, height=700, bg="white", borderwidth=5)
+canvas.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
+
+# Function to handle drawing on the canvas
+def paint(event):
+    x1, y1 = (event.x - 20), (event.y - 20)
+    x2, y2 = (event.x + 20), (event.y + 20)
+    canvas.create_oval(x1, y1, x2, y2, fill="black", width=4)
+
+# Bind mouse events for drawing on the canvas
+canvas.bind("<B1-Motion>", paint)
+
+# Function to clear the canvas
+def clear_canvas():
+    canvas.delete("all")
+
+# Button to clear the canvas
+clear_button = tk.Button(root, text="Pulisci", command=clear_canvas)
+clear_button.grid(row=4, column=0, columnspan=3, pady=10)
+
+# Function to predict the number from the drawn image
+def predict_number():
+    try:
+        x0 = canvas.winfo_rootx()
+        y0 = canvas.winfo_rooty()
+        
+        # Dimensioni dello schermo
+        x1 = 1050
+        y1 = 1050
+        
+        # Acquisizione dell'immagine dalla canvas
+        img = ImageGrab.grab((x0, y0, x1 + x0, y1 + y0))
+        
+        # Salvataggio dell'immagine
+        filename = save_image(img)
+        
+        # Caricamento dell'immagine in modalità grayscale e dimensioni 28x28
+        img = image_utils.load_img(filename, color_mode="grayscale", target_size=(28, 28))
+        
+        # Conversione dell'immagine in un array NumPy
+        img = image_utils.img_to_array(img)
+        
+        # Denoising con filtro bilaterale
+        img = cv2.bilateralFilter(img, 9, 75, 75)
+        
+        # Reshape dell'immagine in un singolo campione con 1 canale
+        img = img.reshape(1, 28, 28, 1)
+        
+        # Normalizzazione dei dati dei pixel
+        img = img.astype("float32") / 255.0
+        
+        mostra_img(img)
+
+        # Previsione del numero con il modello
+        prediction = model.predict(img)
+        predicted_number = np.argmax(prediction)
+        
+        # Calcolo della percentuale di confidenza
+        confidence = np.max(prediction) * 100
+        
+        # Visualizzazione del numero predetto in rosso e più grande
+        predicted_label.config(text=f"Numero predetto: {predicted_number}", fg="red", font=("Helvetica", 20, "bold"))
+        
+        # Visualizzazione della percentuale di confidenza
+        precision_label.config(text=f"Confidenza: {confidence:.2f}%", fg="red", font=("Helvetica", 16, "bold"))
+        
+        #open_image(filename)
+        
+    except Exception as e:
+        mb.showerror("Errore", f"Si è verificato un errore: {e}")
+
+def mostra_img(img):
+    plt.figure()
+    plt.imshow(
+        img.squeeze(), cmap="gray"
+    )  # Squeeze per rimuovere le dimensioni 1
+    plt.title(f"Immagine")
+    plt.axis("off")
+    plt.show()
+
+# Function to save the predicted image
+def save_image(img):
+    try:
+        # Creazione della directory per le immagini se non esiste
+        image_dir = "captured_images"
+        if not os.path.exists(image_dir):
+            os.makedirs(image_dir)
+
+        # Generazione di un nome univoco per l'immagine
+        filename = os.path.join(image_dir, f"{uuid.uuid4()}.png")
+
+        # Salvataggio dell'immagine
+        img.save(filename)
+        
+        return filename
+
+    except Exception as e:
+        mb.showerror("Errore", f"Si è verificato un errore durante il salvataggio dell'immagine: {e}")
+
+# Function to open the saved image
+def open_image(filename):
+    try:
+        # Creazione di una finestra temporanea per visualizzare l'immagine
+        image_window = tk.Toplevel(root)
+        image_window.title(f"Immagine {filename}")
+
+        # Caricamento dell'immagine utilizzando Pillow
+        image = Image.open(filename)
+
+        # Ridimensionamento dell'immagine per adattarla alla finestra
+        window_width = 500
+        window_height = int((image.height / image.width) * window_width)
+        resized_image = image.resize((window_width, window_height))
+
+        # Conversione dell'immagine in un oggetto Tkinter PhotoImage
+        img_tk = ImageTk.PhotoImage(resized_image)
+
+        # Creazione di una label per visualizzare l'immagine
+        image_label = tk.Label(image_window, image=img_tk)
+        image_label.image = img_tk
+        image_label.pack()
+
+        # Esecuzione del loop principale di Tkinter per la finestra dell'immagine
+        image_window.mainloop()
+
+    except Exception as e:
+        mb.showerror("Errore", f"Si è verificato un errore durante l'apertura dell'immagine: {e}")
+
+# Button to predict the number
+predict_button = tk.Button(root, text="Predici Numero", command=predict_number)
+predict_button.grid(row=1, column=0, columnspan=3, pady=10)
+
+# Label to display the predicted number
+predicted_label = tk.Label(root, text="")
+predicted_label.grid(row=2, column=0, columnspan=3)
+
+# Label to display the predicted number
+precision_label = tk.Label(root, text="")
+precision_label.grid(row=3, column=0, columnspan=3)
+
+root.mainloop()
