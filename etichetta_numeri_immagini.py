@@ -3,7 +3,7 @@ import numpy as np
 from tensorflow.keras.utils import to_categorical
 
 # Percorso alla tua cartella con le immagini dei numeri scritti a mano
-handwritten_numbers_dir = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\AI\\capolavoro\\immagini_grandi\\"
+handwritten_numbers_dir = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\IMG_ADDESTRAMENTO\\"
 
 # Lista per memorizzare le etichette e i nomi dei file
 labels = []

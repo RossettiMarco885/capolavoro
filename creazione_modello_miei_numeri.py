@@ -8,7 +8,8 @@ from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense
 
 # Percorso alla tua cartella con le immagini dei numeri scritti a mano
-handwritten_numbers_dir = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\AI\\capolavoro\\IMG_ADDESTRAMENTO\\"
+
+handwritten_numbers_dir = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\IMG_ADDESTRAMENTO\\"
 
 # Lista per memorizzare le immagini e le etichette
 images = []
@@ -94,5 +95,5 @@ model.evaluate(np.concatenate((x_tuoi_test, x_mnist_test), axis=0),
                np.concatenate((y_tuoi_test, y_mnist_test), axis=0))
 
 # Salvataggio del modello
-model.save("C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\AI\\capolavoro\\mnist_numeri_miei.keras")
+model.save("C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\mnist_numeri_miei.keras")
 print("Modello salvato")
