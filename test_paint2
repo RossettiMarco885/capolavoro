@@ -8,7 +8,6 @@ import uuid
 import os
 import tkinter.messagebox as mb
 import matplotlib.pyplot as plt
-
 # Load the trained model
 model = load_model("mnist_numeri_miei.keras")
 

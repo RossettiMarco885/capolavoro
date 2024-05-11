@@ -104,10 +104,10 @@ def predict_from_image(image):
 
 
 # Percorso della directory delle immagini
-path_images = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\captured_images\\"
+path_images = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\IMG_TEST\\"
 
 # Carica il modello Keras pre-allenato
-model = load_model("mnist_numeri_miei.keras")
+model = load_model("mnist_numeri_miei_augmented.keras")
 
 # Lista per memorizzare le immagini pre-processate
 images = []

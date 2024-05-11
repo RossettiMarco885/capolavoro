@@ -6,9 +6,9 @@ from sklearn.model_selection import train_test_split
 from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 # Percorso alla tua cartella con le immagini dei numeri scritti a mano
-
 handwritten_numbers_dir = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\IMG_ADDESTRAMENTO\\"
 
 # Lista per memorizzare le immagini e le etichette
@@ -66,6 +66,17 @@ x_mnist_test = x_mnist_test / 255.0
 y_mnist_train = to_categorical(y_mnist_train, num_classes=num_classes)
 y_mnist_test = to_categorical(y_mnist_test, num_classes=num_classes)
 
+# Definizione delle trasformazioni per la Data Augmentation
+datagen = ImageDataGenerator(
+    rotation_range=10,  # Rotazione massima di 10 gradi
+    width_shift_range=0.1,  # Spostamento orizzontale massimo del 10% della larghezza dell'immagine
+    height_shift_range=0.1,  # Spostamento verticale massimo del 10% dell'altezza dell'immagine
+    zoom_range=0.1,  # Zoom massimo del 10%
+    shear_range=0.1,  # Deviazione massima del 10%
+    horizontal_flip=False,  # Non utilizzare riflessione orizzontale
+    vertical_flip=False  # Non utilizzare riflessione verticale
+)
+
 # Addestramento del modello sul 80% dei tuoi numeri e sul 20% di MNIST
 model = Sequential()
 model.add(Conv2D(32, kernel_size=(3, 3), activation="relu", input_shape=(28, 28, 1)))
@@ -81,10 +92,12 @@ model.add(Dense(num_classes, activation="softmax"))
 # Compilazione del modello
 model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-# Addestramento del modello
-model.fit(
-    np.concatenate((x_tuoi_train, x_mnist_train), axis=0),
-    np.concatenate((y_tuoi_train, y_mnist_train), axis=0),
+# Addestramento del modello con Data Augmentation
+model.fit_generator(
+    datagen.flow(np.concatenate((x_tuoi_train, x_mnist_train), axis=0), 
+                 np.concatenate((y_tuoi_train, y_mnist_train), axis=0), 
+                 batch_size=32),
+    steps_per_epoch=len(np.concatenate((x_tuoi_train, x_mnist_train), axis=0)) // 32,
     epochs=20,
     validation_data=(np.concatenate((x_tuoi_test, x_mnist_test), axis=0), 
                      np.concatenate((y_tuoi_test, y_mnist_test), axis=0))
@@ -95,5 +108,5 @@ model.evaluate(np.concatenate((x_tuoi_test, x_mnist_test), axis=0),
                np.concatenate((y_tuoi_test, y_mnist_test), axis=0))
 
 # Salvataggio del modello
-model.save("C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\mnist_numeri_miei.keras")
+model.save("C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\mnist_numeri_miei_augmented.keras")
 print("Modello salvato")
