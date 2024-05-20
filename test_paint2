@@ -70,16 +70,20 @@ def predict_number():
         # Previsione del numero con il modello
         prediction = model.predict(img)
         predicted_number = np.argmax(prediction)
-        
-        # Calcolo della percentuale di confidenza
-        confidence = np.max(prediction) * 100
-        
+
+        # Calcolo delle percentuali di confidenza
+        confidence_scores = prediction[0]
+        top_3_indices = confidence_scores.argsort()[-3:][::-1]
+        top_3_confidences = confidence_scores[top_3_indices] * 100
+
         # Visualizzazione del numero predetto in rosso e più grande
-        predicted_label.config(text=f"Numero predetto: {predicted_number}", fg="red", font=("Helvetica", 20, "bold"))
-        
-        # Visualizzazione della percentuale di confidenza
-        precision_label.config(text=f"Confidenza: {confidence:.2f}%", fg="red", font=("Helvetica", 16, "bold"))
-        
+        predicted_label.config(text=f"Numero predetto: {top_3_indices[0]}", fg="red", font=("Helvetica", 20, "bold"))
+
+        # Visualizzazione delle percentuali di confidenza
+        confidence_text = (f"Confidenza: {top_3_confidences[0]:.2f}% (Numero: {top_3_indices[0]})\n"
+                        f"Seconda confidenza: {top_3_confidences[1]:.2f}% (Numero: {top_3_indices[1]})\n"
+                        f"Terza confidenza: {top_3_confidences[2]:.2f}% (Numero: {top_3_indices[2]})")
+        precision_label.config(text=confidence_text, fg="red", font=("Helvetica", 16, "bold"))
         #open_image(filename)
         
     except Exception as e:
