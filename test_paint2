@@ -15,6 +15,7 @@ model = load_model("mnist_numeri_miei_augmented.keras")
 # Create the main GUI window
 root = tk.Tk()
 root.title("Riconoscimento Numeri")
+root.attributes('-fullscreen', True)  # Open in fullscreen mode
 
 # Define the canvas for drawing
 canvas = tk.Canvas(root, width=700, height=700, bg="white", borderwidth=5)
