@@ -1,5 +1,6 @@
 import os
 import numpy as np
+from keras.layers import Input
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
@@ -7,9 +8,10 @@ from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import tensorflow as tf
 
 # Percorso alla tua cartella con le immagini dei numeri scritti a mano
-handwritten_numbers_dir = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\IMG_ADDESTRAMENTO\\"
+handwritten_numbers_dir = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\NUOVE_IMG\\"
 
 # Liste per memorizzare immagini e etichette
 images = []
@@ -76,9 +78,10 @@ datagen = ImageDataGenerator(
     horizontal_flip=False, # Non utilizzare riflessione orizzontale
     vertical_flip=False # Non utilizzare riflessione verticale
 )
-
+input_shape = (28, 28, 1)
 # Addestramento del modello sul 80% dei tuoi numeri e sul 20% di MNIST
 model = Sequential()
+model.add(Input(shape=input_shape))
 model.add(Conv2D(32, kernel_size=(3, 3), activation="relu", input_shape=(28, 28, 1)))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.2))
@@ -92,8 +95,6 @@ model.add(Dense(num_classes, activation="softmax"))
 # Compilazione del modello
 model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-# Addestramento del modello con i dati aumentati
-# Utilizza `datagen.flow.repeat()` per far sì che il data generator ripeta la generazione per tutte le epoche
 train_generator = datagen.flow(
     np.concatenate((x_tuoi_train, x_mnist_train), axis=0),
     np.concatenate((y_tuoi_train, y_mnist_train), axis=0),
@@ -105,17 +106,36 @@ train_generator = datagen.flow(
 num_train_samples = len(np.concatenate((x_tuoi_train, x_mnist_train), axis=0))
 steps_per_epoch = num_train_samples // 32
 
-model.fit(train_generator,
-          steps_per_epoch=steps_per_epoch,
-          epochs=20,
-          validation_data=(np.concatenate((x_tuoi_test, x_mnist_test), axis=0),
-            np.concatenate((y_tuoi_test, y_mnist_test), axis=0))
-)
+loss_object = tf.keras.losses.CategoricalCrossentropy()
+
+# Definizione dell'ottimizzatore
+optimizer = tf.keras.optimizers.Adam()
+
+
+def train_step(model, batch_x, batch_y):
+    with tf.GradientTape() as tape:
+        predictions = model(batch_x, training=True)
+        loss = loss_object(batch_y, predictions)
+    gradients = tape.gradient(loss, model.trainable_variables)
+    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+
+# Addestramento del modello con il data generator
+num_epochs = 20
+for epoch in range(num_epochs):
+    print("Epoch", epoch+1, "/", num_epochs)
+    for step in range(steps_per_epoch):
+        # Ottieni il batch successivo dal generatore di dati
+        batch_x, batch_y = next(train_generator)
+        # Chiamata alla funzione di addestramento
+        train_step(model, batch_x, batch_y)
+# Valutazione del modello
+model.evaluate(np.concatenate((x_tuoi_test, x_mnist_test), axis=0), 
+                np.concatenate((y_tuoi_test, y_mnist_test), axis=0))
 
 # Valutazione del modello
 model.evaluate(np.concatenate((x_tuoi_test, x_mnist_test), axis=0), 
-        np.concatenate((y_tuoi_test, y_mnist_test), axis=0))
+                np.concatenate((y_tuoi_test, y_mnist_test), axis=0))
 
 # Salvataggio del modello
-model.save("C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\mnist_numeri_miei_augmented.keras")
+model.save("C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\mnist_numeri_miei_augmented_c.keras")
 print("Modello salvato")

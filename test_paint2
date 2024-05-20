@@ -10,7 +10,7 @@ import tkinter.messagebox as mb
 import matplotlib.pyplot as plt
 
 # Load the trained model
-model = load_model("mnist_numeri_miei_augmented.keras")
+model = load_model("mnist_numeri_miei_augmented_c.keras")
 
 # Create the main GUI window
 root = tk.Tk()
