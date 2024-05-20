@@ -9,33 +9,20 @@ import os
 import tkinter.messagebox as mb
 import matplotlib.pyplot as plt
 
-# Load the trained model
+# Carica il modello addestrato
 model = load_model("mnist_numeri_miei_augmented_c.keras")
 
-# Create the main GUI window
-root = tk.Tk()
-root.title("Riconoscimento Numeri")
-root.attributes('-fullscreen', True)  # Open in fullscreen mode
-
-# Define the canvas for drawing
-canvas = tk.Canvas(root, width=700, height=700, bg="white", borderwidth=5)
-canvas.grid(row=0, column=0, rowspan=5, padx=10, pady=10)
-
-# Function to handle drawing on the canvas
+# Funzione per gestire il disegno sul canvas
 def paint(event):
     x1, y1 = (event.x - 20), (event.y - 20)
     x2, y2 = (event.x + 20), (event.y + 20)
     canvas.create_oval(x1, y1, x2, y2, fill="black", width=4)
 
-# Bind mouse events for drawing on the canvas
-canvas.bind("<B1-Motion>", paint)
-
-# Function to clear the canvas
+# Funzione per pulire il canvas
 def clear_canvas():
     canvas.delete("all")
 
-
-# Function to predict the number from the drawn image
+# Funzione per prevedere il numero dall'immagine disegnata
 def predict_number():
     try:
         x0 = canvas.winfo_rootx()
@@ -66,8 +53,6 @@ def predict_number():
         # Normalizzazione dei dati dei pixel
         img = img.astype("float32") / 255.0
         
-        #mostra_img(img)
-
         # Previsione del numero con il modello
         prediction = model.predict(img)
         predicted_number = np.argmax(prediction)
@@ -85,21 +70,11 @@ def predict_number():
                         f"Seconda confidenza: {top_3_confidences[1]:.2f}% (Numero: {top_3_indices[1]})\n"
                         f"Terza confidenza: {top_3_confidences[2]:.2f}% (Numero: {top_3_indices[2]})")
         precision_label.config(text=confidence_text, fg="red", font=("Helvetica", 16, "bold"))
-        #open_image(filename)
         
     except Exception as e:
         mb.showerror("Errore", f"Si è verificato un errore: {e}")
 
-def mostra_img(img):
-    plt.figure()
-    plt.imshow(
-        img.squeeze(), cmap="gray"
-    )  # Squeeze per rimuovere le dimensioni 1
-    plt.title(f"Immagine")
-    plt.axis("off")
-    plt.show()
-
-# Function to save the predicted image
+# Funzione per salvare l'immagine predetta
 def save_image(img):
     try:
         # Creazione della directory per le immagini se non esiste
@@ -118,7 +93,7 @@ def save_image(img):
     except Exception as e:
         mb.showerror("Errore", f"Si è verificato un errore durante il salvataggio dell'immagine: {e}")
 
-# Function to open the saved image
+# Funzione per aprire l'immagine salvata
 def open_image(filename):
     try:
         # Creazione di una finestra temporanea per visualizzare l'immagine
@@ -147,20 +122,46 @@ def open_image(filename):
     except Exception as e:
         mb.showerror("Errore", f"Si è verificato un errore durante l'apertura dell'immagine: {e}")
 
-# Button to predict the number
-predict_button = tk.Button(root, text="Predici Numero", command=predict_number)
-predict_button.grid(row=0, column=1, padx=10, pady=10)
-# Button to clear the canvas
-clear_button = tk.Button(root, text="Pulisci", command=clear_canvas)
+# Crea la finestra principale della GUI
+root = tk.Tk()
+root.title("Riconoscimento Numeri")
+
+# Massimizza la finestra
+root.state('zoomed')
+
+# Carica l'immagine di sfondo
+background_image = Image.open("sfondo\\esagonale.jpg")
+background_photo = ImageTk.PhotoImage(background_image)
+
+# Crea una label per l'immagine di sfondo
+background_label = tk.Label(root, image=background_photo)
+background_label.place(relwidth=1, relheight=1)
+
+# Definisci il canvas per il disegno
+canvas = tk.Canvas(root, width=700, height=700, bg="white", borderwidth=0)
+canvas.grid(row=0, column=0, rowspan=5, padx=10, pady=10)
+
+# Collega gli eventi del mouse per disegnare sul canvas
+canvas.bind("<B1-Motion>", paint)
+
+# Button per predire il numero
+predict_button = tk.Button(root, text="Predici Numero", command=predict_number, bg="#4CAF50", fg="white", font=("Helvetica", 14, "bold"))
+predict_button.grid(row=2, column=1, padx=10, pady=10)
+
+# Button per pulire il canvas
+clear_button = tk.Button(root, text="Pulisci", command=clear_canvas, bg="#9E9E9E", fg="white", font=("Helvetica", 14, "bold"))
 clear_button.grid(row=1, column=1, padx=10, pady=10)
 
+# Button per chiudere la finestra
+close_button = tk.Button(root, text="Chiudi", command=root.destroy, bg="#f44336", fg="white", font=("Helvetica", 14, "bold"))
+close_button.grid(row=0, column=1, padx=10, pady=10)
 
-# Label to display the predicted number
-predicted_label = tk.Label(root, text="")
-predicted_label.grid(row=2, column=1, padx=10, pady=10)
+# Label per visualizzare il numero predetto
+predicted_label = tk.Label(root, text="Disegna un Numero", fg="red", font=("Helvetica", 20, "bold"))
+predicted_label.grid(row=3, column=1, padx=10, pady=10)
 
-# Label to display the predicted confidence
-precision_label = tk.Label(root, text="")
-precision_label.grid(row=3, column=1, padx=10, pady=10)
+# Label per visualizzare la confidenza predetta
+precision_label = tk.Label(root, text="Il programma cercherà di capire che numero è", fg="red", font=("Helvetica", 16, "bold"))
+precision_label.grid(row=4, column=1, padx=10, pady=10)
 
 root.mainloop()
