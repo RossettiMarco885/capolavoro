@@ -18,7 +18,7 @@ root.title("Riconoscimento Numeri")
 
 # Define the canvas for drawing
 canvas = tk.Canvas(root, width=700, height=700, bg="white", borderwidth=5)
-canvas.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
+canvas.grid(row=0, column=0, rowspan=5, padx=10, pady=10)
 
 # Function to handle drawing on the canvas
 def paint(event):
@@ -33,9 +33,6 @@ canvas.bind("<B1-Motion>", paint)
 def clear_canvas():
     canvas.delete("all")
 
-# Button to clear the canvas
-clear_button = tk.Button(root, text="Pulisci", command=clear_canvas)
-clear_button.grid(row=4, column=0, columnspan=3, pady=10)
 
 # Function to predict the number from the drawn image
 def predict_number():
@@ -44,8 +41,8 @@ def predict_number():
         y0 = canvas.winfo_rooty()
         
         # Dimensioni dello schermo
-        x1 = 1050
-        y1 = 1050
+        x1 = 890
+        y1 = 890
         
         # Acquisizione dell'immagine dalla canvas
         img = ImageGrab.grab((x0, y0, x1 + x0, y1 + y0))
@@ -68,7 +65,7 @@ def predict_number():
         # Normalizzazione dei dati dei pixel
         img = img.astype("float32") / 255.0
         
-        mostra_img(img)
+        #mostra_img(img)
 
         # Previsione del numero con il modello
         prediction = model.predict(img)
@@ -147,14 +144,18 @@ def open_image(filename):
 
 # Button to predict the number
 predict_button = tk.Button(root, text="Predici Numero", command=predict_number)
-predict_button.grid(row=1, column=0, columnspan=3, pady=10)
+predict_button.grid(row=0, column=1, padx=10, pady=10)
+# Button to clear the canvas
+clear_button = tk.Button(root, text="Pulisci", command=clear_canvas)
+clear_button.grid(row=1, column=1, padx=10, pady=10)
+
 
 # Label to display the predicted number
 predicted_label = tk.Label(root, text="")
-predicted_label.grid(row=2, column=0, columnspan=3)
+predicted_label.grid(row=2, column=1, padx=10, pady=10)
 
-# Label to display the predicted number
+# Label to display the predicted confidence
 precision_label = tk.Label(root, text="")
-precision_label.grid(row=3, column=0, columnspan=3)
+precision_label.grid(row=3, column=1, padx=10, pady=10)
 
 root.mainloop()

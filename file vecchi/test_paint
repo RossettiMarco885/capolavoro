@@ -9,7 +9,7 @@ import tkinter.messagebox as mb
 
 
 # Load the trained model
-model = load_model("mnist_numeri_miei.keras")
+model = load_model("mnist_numeri_miei_augmented.keras")
 
 # Variables to store prediction history and image label
 prediction_history = []
