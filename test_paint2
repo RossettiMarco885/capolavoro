@@ -7,34 +7,48 @@ from PIL import Image, ImageGrab, ImageTk
 import uuid
 import os
 import tkinter.messagebox as mb
-import matplotlib.pyplot as plt
 
 # Carica il modello addestrato
 model = load_model("mnist_numeri_miei_augmented_c.keras")
-g_confidenza=26
-g_predizione=30
+g_confidenza = 26
+g_predizione = 30
+
+# Variabili globali per tracciare la posizione precedente del mouse
+last_x, last_y = None, None
+
+# Funzione per iniziare il disegno
+def paint_start(event):
+    global last_x, last_y
+    last_x, last_y = event.x, event.y
+
 # Funzione per gestire il disegno sul canvas
 def paint(event):
-    x1, y1 = (event.x - 20), (event.y - 20)
-    x2, y2 = (event.x + 20), (event.y + 20)
-    canvas.create_oval(x1, y1, x2, y2, fill="black", width=4)
+    global last_x, last_y
+    if last_x and last_y:
+        canvas.create_line(last_x, last_y, event.x, event.y, fill="black", width=40, capstyle=tk.ROUND, smooth=tk.TRUE)
+    last_x, last_y = event.x, event.y
+
+# Funzione per fermare il disegno
+def paint_stop(event):
+    global last_x, last_y
+    last_x, last_y = None, None
 
 # Funzione per pulire il canvas
 def clear_canvas():
     canvas.delete("all")
+    global last_x, last_y
+    last_x, last_y = None, None
 
 # Funzione per prevedere il numero dall'immagine disegnata
 def predict_number():
     try:
         x0 = canvas.winfo_rootx()
         y0 = canvas.winfo_rooty()
-        
-        # Dimensioni dello schermo
-        x1 = 890
-        y1 = 890
+        x1 = x0 + canvas.winfo_width()
+        y1 = y0 + canvas.winfo_height()
         
         # Acquisizione dell'immagine dalla canvas
-        img = ImageGrab.grab((x0, y0, x1 + x0, y1 + y0))
+        img = ImageGrab.grab((x0, y0, x1, y1))
         
         # Salvataggio dell'immagine
         filename = save_image(img)
@@ -68,8 +82,8 @@ def predict_number():
 
         # Visualizzazione delle percentuali di confidenza
         confidence_text = (f"Confidenza: {top_3_confidences[0]:.2f}% (Numero: {top_3_indices[0]})\n"
-                        f"Seconda confidenza: {top_3_confidences[1]:.2f}% (Numero: {top_3_indices[1]})\n"
-                        f"Terza confidenza: {top_3_confidences[2]:.2f}% (Numero: {top_3_indices[2]})")
+                           f"Seconda confidenza: {top_3_confidences[1]:.2f}% (Numero: {top_3_indices[1]})\n"
+                           f"Terza confidenza: {top_3_confidences[2]:.2f}% (Numero: {top_3_indices[2]})")
         precision_label.config(text=confidence_text, fg="red", font=("Helvetica", g_confidenza, "bold"))
         
     except Exception as e:
@@ -94,35 +108,6 @@ def save_image(img):
     except Exception as e:
         mb.showerror("Errore", f"Si è verificato un errore durant eil salvataggio dell'immagine: {e}")
 
-# Funzione per aprire l'immagine salvata
-def open_image(filename):
-    try:
-        # Creazione di una finestra temporanea per visualizzare l'immagine
-        image_window = tk.Toplevel(root)
-        image_window.title(f"Immagine {filename}")
-
-        # Caricamento dell'immagine utilizzando Pillow
-        image = Image.open(filename)
-
-        # Ridimensionamento dell'immagine per adattarla alla finestra
-        window_width = 500
-        window_height = int((image.height / image.width) * window_width)
-        resized_image = image.resize((window_width, window_height))
-
-        # Conversione dell'immagine in un oggetto Tkinter PhotoImage
-        img_tk = ImageTk.PhotoImage(resized_image)
-
-        # Creazione di una label per visualizzare l'immagine
-        image_label = tk.Label(image_window, image=img_tk)
-        image_label.image = img_tk
-        image_label.pack()
-
-        # Esecuzione del loop principale di Tkinter per la finestra dell'immagine
-        image_window.mainloop()
-
-    except Exception as e:
-        mb.showerror("Errore", f"Si è verificato un errore durante l'apertura dell'immagine: {e}")
-
 # Crea la finestra principale della GUI
 root = tk.Tk()
 root.title("Riconoscimento Numeri")
@@ -131,7 +116,7 @@ root.title("Riconoscimento Numeri")
 root.state('zoomed')
 
 # Carica l'immagine di sfondo
-background_image = Image.open("sfondo\\esagonale.jpg")
+background_image = Image.open("sfondo/esagonale.jpg")
 background_photo = ImageTk.PhotoImage(background_image)
 
 # Crea una label per l'immagine di sfondo
@@ -143,7 +128,9 @@ canvas = tk.Canvas(root, width=700, height=700, bg="white", borderwidth=0)
 canvas.grid(row=0, column=0, rowspan=5, padx=10, pady=10)
 
 # Collega gli eventi del mouse per disegnare sul canvas
+canvas.bind("<Button-1>", paint_start)
 canvas.bind("<B1-Motion>", paint)
+canvas.bind("<ButtonRelease-1>", paint_stop)
 
 # Button per predire il numero
 predict_button = tk.Button(root, text="Predici Numero", command=predict_number, bg="#4CAF50", fg="white", font=("Helvetica", 14, "bold"))
