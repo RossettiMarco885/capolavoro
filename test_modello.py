@@ -1,11 +1,17 @@
 import os
 import numpy as np
-import keras.preprocessing.image as image_utils
-from keras.models import load_model
+import keras.preprocessing.image as image_utils # type: ignore
+from keras.models import load_model # type: ignore
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import cv2
 
+
+# Percorso della directory delle immagini
+path_images = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\IMG_TOTALI\\"
+
+# Carica il modello Keras pre-allenato
+model = load_model("mnist_numeri_miei_augmented_c.keras")
 
 def load_and_prepare_image(filename):
     """
@@ -103,11 +109,6 @@ def predict_from_image(image):
     return numero_predetto
 
 
-# Percorso della directory delle immagini
-path_images = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\IMG_TEST\\"
-
-# Carica il modello Keras pre-allenato
-model = load_model("mnist_numeri_miei_augmented_c.keras")
 # Lista per memorizzare le immagini pre-processate
 images = []
 

@@ -1,8 +1,8 @@
 import tkinter as tk
 import cv2
 import numpy as np
-from tensorflow.keras.models import load_model
-import keras.preprocessing.image as image_utils
+from tensorflow.keras.models import load_model # type: ignore
+import keras.preprocessing.image as image_utils # type: ignore
 from PIL import Image, ImageGrab, ImageTk
 import uuid
 import os
@@ -11,7 +11,8 @@ import matplotlib.pyplot as plt
 
 # Carica il modello addestrato
 model = load_model("mnist_numeri_miei_augmented_c.keras")
-
+g_confidenza=26
+g_predizione=30
 # Funzione per gestire il disegno sul canvas
 def paint(event):
     x1, y1 = (event.x - 20), (event.y - 20)
@@ -63,13 +64,13 @@ def predict_number():
         top_3_confidences = confidence_scores[top_3_indices] * 100
 
         # Visualizzazione del numero predetto in rosso e più grande
-        predicted_label.config(text=f"Numero predetto: {top_3_indices[0]}", fg="red", font=("Helvetica", 20, "bold"))
+        predicted_label.config(text=f"Numero predetto: {top_3_indices[0]}", fg="red", font=("Helvetica", g_predizione, "bold"))
 
         # Visualizzazione delle percentuali di confidenza
         confidence_text = (f"Confidenza: {top_3_confidences[0]:.2f}% (Numero: {top_3_indices[0]})\n"
                         f"Seconda confidenza: {top_3_confidences[1]:.2f}% (Numero: {top_3_indices[1]})\n"
                         f"Terza confidenza: {top_3_confidences[2]:.2f}% (Numero: {top_3_indices[2]})")
-        precision_label.config(text=confidence_text, fg="red", font=("Helvetica", 16, "bold"))
+        precision_label.config(text=confidence_text, fg="red", font=("Helvetica", g_confidenza, "bold"))
         
     except Exception as e:
         mb.showerror("Errore", f"Si è verificato un errore: {e}")
@@ -91,7 +92,7 @@ def save_image(img):
         return filename
 
     except Exception as e:
-        mb.showerror("Errore", f"Si è verificato un errore durante il salvataggio dell'immagine: {e}")
+        mb.showerror("Errore", f"Si è verificato un errore durant eil salvataggio dell'immagine: {e}")
 
 # Funzione per aprire l'immagine salvata
 def open_image(filename):
@@ -157,11 +158,11 @@ close_button = tk.Button(root, text="Chiudi", command=root.destroy, bg="#f44336"
 close_button.grid(row=0, column=1, padx=10, pady=10)
 
 # Label per visualizzare il numero predetto
-predicted_label = tk.Label(root, text="Disegna un Numero", fg="red", font=("Helvetica", 20, "bold"))
+predicted_label = tk.Label(root, text="Disegna un Numero", fg="red", font=("Helvetica", g_predizione, "bold"))
 predicted_label.grid(row=3, column=1, padx=10, pady=10)
 
 # Label per visualizzare la confidenza predetta
-precision_label = tk.Label(root, text="Il programma cercherà di capire che numero è", fg="red", font=("Helvetica", 16, "bold"))
+precision_label = tk.Label(root, text="Il programma cercherà di capire che numero è", fg="red", font=("Helvetica", g_confidenza, "bold"))
 precision_label.grid(row=4, column=1, padx=10, pady=10)
 
 root.mainloop()
