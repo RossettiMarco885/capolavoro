@@ -2,10 +2,8 @@ import tkinter as tk
 import cv2
 import numpy as np
 from tensorflow.keras.models import load_model # type: ignore
-import keras.preprocessing.image as image_utils # type: ignore
+from tensorflow.keras.preprocessing import image as image_utils # type: ignore
 from PIL import Image, ImageGrab, ImageTk
-import uuid
-import os
 import tkinter.messagebox as mb
 
 # Carica il modello addestrato
@@ -42,25 +40,23 @@ def clear_canvas():
 # Funzione per prevedere il numero dall'immagine disegnata
 def predict_number():
     try:
-        x0 = canvas.winfo_rootx()
-        y0 = canvas.winfo_rooty()
+        x0 = canvas.winfo_rootx() + canvas.winfo_x()
+        y0 = canvas.winfo_rooty() + canvas.winfo_y()
         x1 = x0 + canvas.winfo_width()
         y1 = y0 + canvas.winfo_height()
         
         # Acquisizione dell'immagine dalla canvas
         img = ImageGrab.grab((x0, y0, x1, y1))
         
-        # Salvataggio dell'immagine
-        filename = save_image(img)
+        # Converti l'immagine in grayscale e ridimensionala a 28x28
+        img = img.convert('L')
+        img = img.resize((28, 28), Image.LANCZOS)
         
-        # Caricamento dell'immagine in modalità grayscale e dimensioni 28x28
-        img = image_utils.load_img(filename, color_mode="grayscale", target_size=(28, 28))
+        # Converti l'immagine in un array NumPy
+        img = np.array(img)
         
-        # Conversione dell'immagine in un array NumPy
-        img = image_utils.img_to_array(img)
-        
-        # Denoising con filtro bilaterale
-        img = cv2.bilateralFilter(img, 9, 75, 75)
+        # Inverti i colori (MNIST è bianco su nero)
+        img = 255 - img
         
         # Reshape dell'immagine in un singolo campione con 1 canale
         img = img.reshape(1, 28, 28, 1)
@@ -70,7 +66,7 @@ def predict_number():
         
         # Previsione del numero con il modello
         prediction = model.predict(img)
-        predicted_number = np.argmax(prediction)
+        #predicted_number = np.argmax(prediction)
 
         # Calcolo delle percentuali di confidenza
         confidence_scores = prediction[0]
@@ -88,25 +84,6 @@ def predict_number():
         
     except Exception as e:
         mb.showerror("Errore", f"Si è verificato un errore: {e}")
-
-# Funzione per salvare l'immagine predetta
-def save_image(img):
-    try:
-        # Creazione della directory per le immagini se non esiste
-        image_dir = "captured_images"
-        if not os.path.exists(image_dir):
-            os.makedirs(image_dir)
-
-        # Generazione di un nome univoco per l'immagine
-        filename = os.path.join(image_dir, f"{uuid.uuid4()}.png")
-
-        # Salvataggio dell'immagine
-        img.save(filename)
-        
-        return filename
-
-    except Exception as e:
-        mb.showerror("Errore", f"Si è verificato un errore durant eil salvataggio dell'immagine: {e}")
 
 # Crea la finestra principale della GUI
 root = tk.Tk()
