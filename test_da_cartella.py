@@ -8,10 +8,10 @@ import cv2
 
 
 # Percorso della directory delle immagini
-path_images = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\IMG_TOTALI\\"
+path_images = "C:\\Users\\rosse\\Documents\\GitHub\\capolavoro\\IMG_TEST\\"
 
 # Carica il modello Keras pre-allenato
-model = load_model("mnist_numeri_miei_augmented_c.keras")
+model = load_model("cnn_numeri.keras")
 
 def load_and_prepare_image(filename):
     """

@@ -1,13 +1,11 @@
 import tkinter as tk
-import cv2
 import numpy as np
 from tensorflow.keras.models import load_model # type: ignore
-from tensorflow.keras.preprocessing import image as image_utils # type: ignore
 from PIL import Image, ImageGrab, ImageTk
 import tkinter.messagebox as mb
 
 # Carica il modello addestrato
-model = load_model("mnist_numeri_miei_augmented_c.keras")
+model = load_model("cnn_numeri.keras")
 g_confidenza = 26
 g_predizione = 30
 
