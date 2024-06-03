@@ -2,7 +2,6 @@ import os
 import numpy as np
 import keras.preprocessing.image as image_utils # type: ignore
 from keras.models import load_model # type: ignore
-import tensorflow as tf
 import matplotlib.pyplot as plt
 import cv2
 
@@ -46,7 +45,7 @@ def load_and_prepare_image(filename):
 def carica_immagini(images):
     """
     Carica le immagini dalla directory specificata e le pre-processa.
-
+    
     Args:
         images: Lista per memorizzare le immagini pre-processate.
 
@@ -65,13 +64,12 @@ def carica_immagini(images):
     return images
 
 
-def mostra_immagini(images, path_images):
+def mostra_immagini(images):
     """
     Visualizza le prime n immagini pre-processate.
 
     Args:
         images: La lista di immagini pre-processate.
-        path_images: Il percorso della directory delle immagini.
     """
 
     #modificare n con il numero di cifre massimo in un numero per vederne una per numero
@@ -81,6 +79,9 @@ def mostra_immagini(images, path_images):
 
         # Visualizza le prime n immagini postprocessate
         #if i < 1000 and i % n == 0:
+        
+        
+        #così non viene visualizzata nessuna immagine
          if i<0:
             plt.figure()
             plt.imshow(
@@ -115,11 +116,10 @@ images = []
 # Carica le immagini e le pre-processa
 images = carica_immagini(images)
 
-# Visualizza le prime 5 immagini pre-processate
-mostra_immagini(images, path_images)
+# Visualizza le prime n immagini pre-processate
+mostra_immagini(images)
 
 # Analisi delle predizioni
-
 predizioni_giuste = 0
 predizioni_sbagliate = 0
 errori_per_numero = {numero: 0 for numero in range(10)}
